@@ -29,7 +29,7 @@ O projeto tem duas partes que funcionam juntas:
 
 | Modelo | MAE (dias) | Observação |
 |---|---|---|
-| B0 · prazo prometido pela loja (método atual) | 12,85 | erro defensivo: promete ~12 dias a mais |
+| B0 · prazo prometido pela loja (método atual) | 12,84 | erro defensivo: promete ~12 dias a mais |
 | B1 · média geral | 5,45 | |
 | B2 · média por par de estados | 4,54 | |
 | B3 · regressão linear | 3,50 | melhor linha de base |
