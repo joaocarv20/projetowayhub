@@ -1,0 +1,408 @@
+{
+  "filtros": {
+    "pedidos_na_base": 99441,
+    "entregues_com_datas": 96469,
+    "um_vendedor_e_pacote_completo": 95178,
+    "com_coordenadas": 94707,
+    "sem_tempos_negativos": 94703
+  },
+  "divisao": {
+    "treino": {
+      "n": 55605,
+      "de": "2016-10-08",
+      "ate": "2018-02-28",
+      "media_dias": 10.066690172621367
+    },
+    "validacao": {
+      "n": 20435,
+      "de": "2018-03-01",
+      "ate": "2018-05-30",
+      "media_dias": 10.433248795865845
+    },
+    "teste": {
+      "n": 18661,
+      "de": "2018-06-01",
+      "ate": "2018-08-31",
+      "media_dias": 6.048252567867825
+    }
+  },
+  "tuning": [
+    {
+      "modelo": "Random Forest",
+      "params": "max_depth=12, min_samples_leaf=5",
+      "MAE_treino": 3.770339713125394,
+      "MAE_validacao": 5.00496806987056,
+      "gap": 1.2346283567451657
+    },
+    {
+      "modelo": "Random Forest",
+      "params": "max_depth=12, min_samples_leaf=20",
+      "MAE_treino": 3.931567254330086,
+      "MAE_validacao": 4.992750254939724,
+      "gap": 1.0611830006096374
+    },
+    {
+      "modelo": "Random Forest",
+      "params": "max_depth=20, min_samples_leaf=5",
+      "MAE_treino": 3.048947034310463,
+      "MAE_validacao": 5.078327993601134,
+      "gap": 2.0293809592906706
+    },
+    {
+      "modelo": "Random Forest",
+      "params": "max_depth=20, min_samples_leaf=20",
+      "MAE_treino": 3.7737041928678936,
+      "MAE_validacao": 5.023286360843093,
+      "gap": 1.2495821679751993
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=squared_error, learning_rate=0.05, max_leaf_nodes=31",
+      "MAE_treino": 4.055755275820195,
+      "MAE_validacao": 4.987406673910086,
+      "gap": 0.9316513980898913
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=squared_error, learning_rate=0.05, max_leaf_nodes=63",
+      "MAE_treino": 3.8738512577413906,
+      "MAE_validacao": 5.102006050793398,
+      "gap": 1.2281547930520076
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=squared_error, learning_rate=0.1, max_leaf_nodes=31",
+      "MAE_treino": 4.011345774772063,
+      "MAE_validacao": 5.0157622676485465,
+      "gap": 1.0044164928764836
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=squared_error, learning_rate=0.1, max_leaf_nodes=63",
+      "MAE_treino": 3.9325977356931054,
+      "MAE_validacao": 5.094781363522899,
+      "gap": 1.1621836278297937
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=absolute_error, learning_rate=0.05, max_leaf_nodes=31",
+      "MAE_treino": 3.8167067036298916,
+      "MAE_validacao": 4.99043024856607,
+      "gap": 1.1737235449361783
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=absolute_error, learning_rate=0.05, max_leaf_nodes=63",
+      "MAE_treino": 3.6949802054271332,
+      "MAE_validacao": 4.9981380074329795,
+      "gap": 1.3031578020058463
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=absolute_error, learning_rate=0.1, max_leaf_nodes=31",
+      "MAE_treino": 3.67878731723259,
+      "MAE_validacao": 4.986804244035876,
+      "gap": 1.3080169268032864
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "params": "loss=absolute_error, learning_rate=0.1, max_leaf_nodes=63",
+      "MAE_treino": 3.6068824648441167,
+      "MAE_validacao": 5.014378316956997,
+      "gap": 1.4074958521128806
+    }
+  ],
+  "escolhido": "Gradient Boosting",
+  "melhores_params": {
+    "Random Forest": "max_depth=12, min_samples_leaf=20",
+    "Gradient Boosting": "loss=absolute_error, learning_rate=0.1, max_leaf_nodes=31"
+  },
+  "validacao": [
+    {
+      "modelo": "B0 · prazo prometido (atual)",
+      "MAE": 11.481477523584266,
+      "ME": 9.100435486501917,
+      "RMSE": 13.697222312626845,
+      "atraso_pct": 12.855395155370688
+    },
+    {
+      "modelo": "B1 · média geral",
+      "MAE": 6.785316966718528,
+      "ME": -0.36655862324447636,
+      "RMSE": 9.535164748348175,
+      "atraso_pct": 37.86151211157328
+    },
+    {
+      "modelo": "B2 · média por par de UFs",
+      "MAE": 5.224828920384391,
+      "ME": -0.7902517859920537,
+      "RMSE": 8.027409499143491,
+      "atraso_pct": 39.57915341326156
+    },
+    {
+      "modelo": "B3 · regressão linear",
+      "MAE": 5.5552041906982454,
+      "ME": -1.0321534113667519,
+      "RMSE": 8.51367103976062,
+      "atraso_pct": 39.41277220455102
+    },
+    {
+      "modelo": "Random Forest",
+      "MAE": 4.992750254939724,
+      "ME": -1.502489597454806,
+      "RMSE": 8.145481068260407,
+      "atraso_pct": 41.64913139221923
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "MAE": 4.986804244035876,
+      "ME": -2.731421621054668,
+      "RMSE": 8.565210348113643,
+      "atraso_pct": 50.36457058967457
+    }
+  ],
+  "teste": [
+    {
+      "modelo": "B0 · prazo prometido (atual)",
+      "MAE": 12.844501398117881,
+      "ME": 12.27423375982689,
+      "RMSE": 15.604511644449934,
+      "atraso_pct": 5.551685333047533
+    },
+    {
+      "modelo": "B1 · média geral",
+      "MAE": 5.445930748679822,
+      "ME": 4.116946619298529,
+      "RMSE": 6.563662775976713,
+      "atraso_pct": 12.603826161513318
+    },
+    {
+      "modelo": "B2 · média por par de UFs",
+      "MAE": 4.538252859892004,
+      "ME": 3.592909108941481,
+      "RMSE": 5.863213185837175,
+      "atraso_pct": 12.711001554043191
+    },
+    {
+      "modelo": "B3 · regressão linear",
+      "MAE": 3.501008076342417,
+      "ME": 2.2081900677572426,
+      "RMSE": 5.016934887713045,
+      "atraso_pct": 17.260596966936394
+    },
+    {
+      "modelo": "Random Forest",
+      "MAE": 3.1899707353179227,
+      "ME": 2.048902928250795,
+      "RMSE": 4.667052018594409,
+      "atraso_pct": 15.074218959326938
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "MAE": 2.4874604537364307,
+      "ME": 0.8727828246311721,
+      "RMSE": 4.264818206634677,
+      "atraso_pct": 30.10556776164193
+    }
+  ],
+  "prazo_seguro": [
+    {
+      "prazo": "B0 · prazo prometido (atual)",
+      "chega_no_prazo_pct": 94.44831466695247,
+      "folga_media_dias": 12.27423375982689,
+      "prazo_medio_dias": 18.322486327694715
+    },
+    {
+      "prazo": "Modelo · prazo seguro (P90)",
+      "chega_no_prazo_pct": 96.10417448153903,
+      "folga_media_dias": 6.3270878127856545,
+      "prazo_medio_dias": 12.375340380653482
+    }
+  ],
+  "por_regiao": [
+    {
+      "region": "Centro-Oeste",
+      "n": 1027,
+      "MAE_modelo": 3.1438248524548853,
+      "MAE_B2": 5.138539404422551,
+      "ME_modelo": 1.4861547115810254
+    },
+    {
+      "region": "Nordeste",
+      "n": 1666,
+      "MAE_modelo": 5.184946698894769,
+      "MAE_B2": 7.683357269371299,
+      "ME_modelo": 1.6829398704678946
+    },
+    {
+      "region": "Norte",
+      "n": 302,
+      "MAE_modelo": 4.784696066291828,
+      "MAE_B2": 8.11512051324364,
+      "ME_modelo": 2.247413478105052
+    },
+    {
+      "region": "Sudeste",
+      "n": 13214,
+      "MAE_modelo": 2.004682574897648,
+      "MAE_B2": 3.917650040974941,
+      "ME_modelo": 0.6218734707517993
+    },
+    {
+      "region": "Sul",
+      "n": 2452,
+      "MAE_modelo": 2.698538518200665,
+      "MAE_B2": 5.053829283396288,
+      "ME_modelo": 1.2482816739588396
+    }
+  ],
+  "por_distancia": [
+    {
+      "dist_bin": "até 100 km",
+      "n": 4205,
+      "MAE_modelo": 1.1779008451586424,
+      "MAE_B2": 3.3137030716590496,
+      "ME_modelo": -0.2638534558512733
+    },
+    {
+      "dist_bin": "100–300 km",
+      "n": 2627,
+      "MAE_modelo": 1.8188543014527596,
+      "MAE_B2": 2.6866432622154095,
+      "ME_modelo": 0.6790409361864257
+    },
+    {
+      "dist_bin": "300–700 km",
+      "n": 6552,
+      "MAE_modelo": 2.5569987910869565,
+      "MAE_B2": 4.673034812594121,
+      "ME_modelo": 1.2282385568854675
+    },
+    {
+      "dist_bin": "700–1500 km",
+      "n": 3647,
+      "MAE_modelo": 3.3387150621267185,
+      "MAE_B2": 5.67558052269937,
+      "ME_modelo": 1.1694136156217825
+    },
+    {
+      "dist_bin": "> 1500 km",
+      "n": 1630,
+      "MAE_modelo": 4.759230866619119,
+      "MAE_B2": 7.594992082133269,
+      "ME_modelo": 2.024781013526959
+    }
+  ],
+  "por_mes": [
+    {
+      "mes": "2018-06",
+      "n": 5931,
+      "MAE_modelo": 2.6776686532262066,
+      "MAE_B2": 4.3504958649164305,
+      "ME_modelo": 0.3814529218693288
+    },
+    {
+      "mes": "2018-07",
+      "n": 5866,
+      "MAE_modelo": 2.704788068113539,
+      "MAE_B2": 4.873638020736534,
+      "ME_modelo": 1.072586879819237
+    },
+    {
+      "mes": "2018-08",
+      "n": 6864,
+      "MAE_modelo": 2.1373776132483804,
+      "MAE_B2": 4.413867280592196,
+      "ME_modelo": 1.126574646534917
+    }
+  ],
+  "por_mesma_uf": [
+    {
+      "mesma_uf": "UFs diferentes",
+      "n": 11077,
+      "MAE_modelo": 3.241413177791017,
+      "MAE_B2": 5.777598661635733,
+      "ME_modelo": 1.4079960604646797
+    },
+    {
+      "mesma_uf": "mesma UF",
+      "n": 7584,
+      "MAE_modelo": 1.386256033331281,
+      "MAE_B2": 2.7280954962428368,
+      "ME_modelo": 0.09106380916073878
+    }
+  ],
+  "importancia": [
+    {
+      "variavel": "distance_km",
+      "aumento_MAE": 0.34779926340660516
+    },
+    {
+      "variavel": "dest_lat",
+      "aumento_MAE": 0.30603231874444764
+    },
+    {
+      "variavel": "same_state",
+      "aumento_MAE": 0.2983867638843951
+    },
+    {
+      "variavel": "dest_lng",
+      "aumento_MAE": 0.22129236001068855
+    },
+    {
+      "variavel": "dest_state",
+      "aumento_MAE": 0.15163640116803231
+    },
+    {
+      "variavel": "weekday",
+      "aumento_MAE": 0.09245131455548868
+    },
+    {
+      "variavel": "origin_lng",
+      "aumento_MAE": 0.05104261972886833
+    },
+    {
+      "variavel": "origin_lat",
+      "aumento_MAE": 0.018851746473520947
+    },
+    {
+      "variavel": "volume_cm3",
+      "aumento_MAE": 0.013659230868751463
+    },
+    {
+      "variavel": "weight_kg",
+      "aumento_MAE": 0.012869006294971008
+    },
+    {
+      "variavel": "month",
+      "aumento_MAE": 0.008700718183484982
+    },
+    {
+      "variavel": "n_items",
+      "aumento_MAE": 0.0046841486772171885
+    },
+    {
+      "variavel": "dest_region",
+      "aumento_MAE": -8.064256603542337e-05
+    },
+    {
+      "variavel": "origin_state",
+      "aumento_MAE": -0.012575998664675847
+    }
+  ],
+  "piores_5pct_regiao": {
+    "Nordeste": 42.9,
+    "Sudeste": 33.2,
+    "Sul": 10.4,
+    "Norte": 7.9,
+    "Centro-Oeste": 5.6
+  },
+  "todas_regiao": {
+    "Sudeste": 70.8,
+    "Sul": 13.1,
+    "Nordeste": 8.9,
+    "Centro-Oeste": 5.5,
+    "Norte": 1.6
+  },
+  "atrasos_acima_30_dias_pct": 0.5144418841434008
+}
