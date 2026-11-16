@@ -10,13 +10,14 @@ import streamlit as st
 from config.settings import ANTECEDENCIA_MINIMA_MIN, TAXA_MINIMA_CARONA
 from ml.previsao import item_de_pedido
 from services import logistica
+from ui.tema import badge
 from utils.helpers import fmt_brl, fmt_dias
 
 H = html.escape
 
 
 def render(user, previsor):
-    aba_buscar, aba_caronas = st.tabs(["Buscar pedidos", "Minhas caronas"])
+    aba_buscar, aba_caronas = st.tabs(["🔎 Buscar pedidos", "🚚 Minhas caronas"])
     with aba_buscar:
         _buscar(user, previsor)
     with aba_caronas:
@@ -54,7 +55,7 @@ def _card_html(p, horas_ia):
         f'<div class="wh-sub">{H(p["destino_nome"])} · {H(p["destino_bairro"])}</div></div></div>'
         '</div>'
         f'<div class="wh-meta"><span class="wh-pill">{H(p["categoria"])}</span>'
-        f'<span class="wh-pill ia">{fmt_dias(horas_ia)}</span>'
+        f'<span class="wh-pill ia">Entrega prevista (IA): {fmt_dias(horas_ia)}</span>'
         f'<span class="wh-sub">{dims} · {float(p["peso_kg"]):g} kg</span>'
         f'<span class="wh-sub">{H(p["descricao"])}</span></div>'
         f'<div class="wh-price">{fmt_brl(p["taxa"])}</div>'
@@ -68,10 +69,11 @@ def _buscar(user, previsor):
         (st.success if tipo == "ok" else st.error)(texto)
 
     cidades = ["Todas"] + logistica.cidades_com_centros()
-    f1, f2, f3 = st.columns(3)
-    origem = f1.selectbox("Saindo de", cidades, key="f_origem")
-    destino = f2.selectbox("Indo para", cidades, key="f_destino")
-    data = f3.date_input("Data da retirada", value=None, format="DD/MM/YYYY", key="f_data")
+    with st.container(border=True):
+        f1, f2, f3 = st.columns(3)
+        origem = f1.selectbox("📍 Saindo de", cidades, key="f_origem")
+        destino = f2.selectbox("🏁 Indo para", cidades, key="f_destino")
+        data = f3.date_input("📅 Data da retirada", value=None, format="DD/MM/YYYY", key="f_data")
 
     pedidos = logistica.listar_pedidos_disponiveis(
         None if origem == "Todas" else origem, None if destino == "Todas" else destino, data)
@@ -97,26 +99,31 @@ def _buscar(user, previsor):
     if not pedidos:
         st.info("Nenhum pedido disponível com esses filtros.")
 
+    if pedidos:
+        st.markdown(f"**{len(pedidos)} pedido(s) disponível(is)** — marque os que vai levar")
     selecionados = []
     for p in pedidos:
-        c1, c2 = st.columns([0.06, 0.94], vertical_alignment="center")
-        if c1.checkbox("Selecionar", key=f"sel_{p['id']}", label_visibility="collapsed"):
-            selecionados.append(p)
-        c2.markdown(_card_html(p, horas_ia[p["id"]]), unsafe_allow_html=True)
+        with st.container(border=True, key=f"pedido_{p['id']}"):
+            c1, c2 = st.columns([0.05, 0.95], vertical_alignment="center")
+            if c1.checkbox("Selecionar", key=f"sel_{p['id']}", label_visibility="collapsed"):
+                selecionados.append(p)
+            c2.markdown(_card_html(p, horas_ia[p["id"]]), unsafe_allow_html=True)
 
     with resumo:
         total = sum(float(p["taxa"]) for p in selecionados)
         with st.container(border=True):
             st.progress(min(total / TAXA_MINIMA_CARONA, 1.0),
                         text=f"{len(selecionados)} pedido(s) · {fmt_brl(total)} de {fmt_brl(TAXA_MINIMA_CARONA)} mínimos".replace("$", r"\$"))
-            st.button("Solicitar carona", key="btn_solicitar", disabled=not selecionados,
+            st.button("Solicitar carona", key="btn_solicitar", disabled=not selecionados, type="primary",
                       on_click=_solicitar, args=(user["id"], [p["id"] for p in selecionados]))
 
 
 # ------------------------------------------------------------------ minhas caronas
 def _minhas_caronas(user):
     caronas = logistica.listar_caronas_motorista(user["id"])
-    st.metric("Total já recebido (taxas pagas)", fmt_brl(logistica.ganhos_motorista(user["id"])))
+    m1, m2 = st.columns(2)
+    m1.metric("Total já recebido (taxas pagas)", fmt_brl(logistica.ganhos_motorista(user["id"])), border=True)
+    m2.metric("Caronas ativas", sum(c["status"] in ("solicitada", "em_andamento") for c in caronas), border=True)
     if not caronas:
         st.caption("Você ainda não solicitou nenhuma carona.")
         return
@@ -127,7 +134,7 @@ def _minhas_caronas(user):
         with st.container(border=True):
             topo, valor = st.columns([3, 1])
             topo.markdown(
-                f'<span class="wh-badge {c["status"]}">{rotulo[c["status"]]}</span> &nbsp; '
+                f'{badge(c["status"], rotulo[c["status"]])} &nbsp; '
                 f'**{H(c["origem_cidade"])}** ({H(c["origem_nome"])}, {H(c["origem_bairro"])}) → '
                 f'**{H(c["destino_cidade"])}** ({H(c["destino_nome"])}, {H(c["destino_bairro"])})',
                 unsafe_allow_html=True)
