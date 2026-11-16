@@ -1,0 +1,9 @@
+{
+  "treinado_em": "2026-11-16T09:45:51",
+  "algoritmo": "RandomForestRegressor",
+  "linhas_historico": 800,
+  "linhas_mysql": 562,
+  "linhas_total": 1362,
+  "erro_medio_horas": 0.72,
+  "r2": 0.994
+}
